@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  nginx:
+    build:
+      context: ./nginx-php
+    ports :
+      - "8080:80" #(https://localhost:8080)
+    environment:
+      PHP_ADDRESS: php #same as "links"
+      TZ: 'Europe/Paris'
+    volumes:
+      - ./app/public:/usr/share/nginx/html
+    links:
+      - php:php
+
+  php:
+    build:
+      context: ./php-fpm/7.1
+    restart: always
+    environment:
+      TZ: 'Europe/Paris'
+      XDEBUG_CONFIG: remote_host=192.168.1.36 #local
+    volumes:
+      - ./app:/var/www/html
