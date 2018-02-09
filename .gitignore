@@ -1,1 +1,6 @@
-.idea
+# JetBrain config folders
+/.idea/
+
+# Docker stuff
+/.env
+/.data

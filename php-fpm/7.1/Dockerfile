@@ -23,3 +23,5 @@ ADD config/custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
 
 ENTRYPOINT ["/bin/bash", "/docker/entrypoint.sh"]
 CMD ["php-fpm"]
+
+# @TODO create docker user, & set uui & guuid
