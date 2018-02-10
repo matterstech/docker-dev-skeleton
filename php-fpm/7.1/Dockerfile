@@ -1,7 +1,13 @@
 FROM php:7.1-fpm
 
+
+ARG DOCKER_USER="devops"
+ARG DOCKER_USER_ID="1001"
+
+
 RUN apt-get update -qq \
-    && apt-get install -y gettext-base openssh-client wget git make cmake libssl-dev libssl-doc libxml2-dev libcurl3-dev --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
+        gettext-base openssh-client wget git make cmake libssl-dev libssl-doc libxml2-dev libcurl3-dev sudo \
     && pecl install xdebug \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
@@ -18,10 +24,20 @@ RUN apt-get update -qq \
     && rm -rf /var/lib/apt/lists/* \
     && cd -
 
+
+# Copy config
 COPY ./config/ /docker/
 ADD config/custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
 
+
+# Add local user
+RUN useradd --shell /bin/bash -u ${DOCKER_USER_ID} -o -c "" -m ${DOCKER_USER} \
+    && adduser ${DOCKER_USER} sudo \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+    && export HOME=/home/${DOCKER_USER} \
+    && mv /docker/.bashrc /home/${DOCKER_USER}/.bashrc \
+    && chown ${DOCKER_USER}:${DOCKER_USER} /home/${DOCKER_USER}/.bashrc
+
+
 ENTRYPOINT ["/bin/bash", "/docker/entrypoint.sh"]
 CMD ["php-fpm"]
-
-# @TODO create docker user, & set uui & guuid
