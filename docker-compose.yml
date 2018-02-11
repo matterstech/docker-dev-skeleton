@@ -1,25 +1,55 @@
 version: '3'
+
+## NOTES:
+# if you see ${SOME_VAR} in this file,
+# these values are taken from .env file
+
+#########################
+#          DEV          #
+#########################
+
 services:
 
   nginx:
     build:
-      context: ./nginx-php
+      context: $PWD/nginx-php
+      dockerfile: Dockerfile
+    restart: "${RESTART_POLICIES}"
+    depends_on:
+      - php
     ports :
-      - "8080:80" #(https://localhost:8080)
+      - "${NGINX_PORT}:80"
     environment:
-      PHP_ADDRESS: php #same as "links"
-      TZ: 'Europe/Paris'
+      - "SERVER_NAME=${SERVER_NAME}"
+      - "PHP_ADDRESS=${PHP_ADDRESS}"
+      - "TZ=${TIMEZONE}"
     volumes:
-      - ./app/public:/usr/share/nginx/html
-    links:
-      - php:php
+      - "$PWD/app/public:/usr/share/nginx/html"
+    networks:
+      - "docker-dev-skeleton"
 
   php:
     build:
-      context: ./php-fpm/7.1
-    restart: always
+      context: $PWD/php-fpm/7.1
+      dockerfile: Dockerfile
+      args:
+        - "DOCKER_USER=${DOCKER_USER}"
+        - "DOCKER_USER_ID=${DOCKER_USER_ID}"
+    restart: "${RESTART_POLICIES}"
     environment:
-      TZ: 'Europe/Paris'
-      XDEBUG_CONFIG: remote_host=192.168.1.36 #local
+      - "TZ=${TIMEZONE}"
+      - "XDEBUG_CONFIG=remote_host=${REMOTE_HOST}"
     volumes:
-      - ./app:/var/www/html
+      - "$PWD/app:/var/www/html"
+    working_dir: "/var/www/html"
+    user: "${DOCKER_USER}"
+    entrypoint:
+      - ""
+    command:
+      - "php-fpm"
+    networks:
+      - "docker-dev-skeleton"
+
+networks:
+    docker-dev-skeleton:
+        driver: bridge
