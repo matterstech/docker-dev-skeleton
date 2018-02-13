@@ -1,0 +1,11 @@
+dist: trusty
+
+services:
+  - docker
+
+install:
+  - cp .env.example .env
+  - docker-compose up -d
+
+script:
+ - curl localhost:8080

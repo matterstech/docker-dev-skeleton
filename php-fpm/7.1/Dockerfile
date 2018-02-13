@@ -1,8 +1,8 @@
 FROM php:7.1-fpm
 
 
-ARG DOCKER_USER="devops"
-ARG DOCKER_USER_ID="1001"
+ARG DOCKER_USER
+ARG DOCKER_USER_ID
 
 
 RUN apt-get update -qq \
