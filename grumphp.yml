@@ -1,0 +1,11 @@
+parameters:
+  hooks_dir: ./grumphp/hooks
+  tasks:
+    jsonlint: ~
+    yamllint: ~
+    phplint: ~
+    phpcsfixer2:
+      allow_risky: true
+  ascii:
+    failed: ~
+    succeeded: ~
