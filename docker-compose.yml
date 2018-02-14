@@ -11,9 +11,7 @@ version: '3'
 services:
 
   nginx:
-    build:
-      context: $PWD/nginx-php
-      dockerfile: Dockerfile
+    build: ./.docker/nginx-php
     restart: "${RESTART_POLICIES}"
     depends_on:
       - php
@@ -24,14 +22,13 @@ services:
       - "PHP_ADDRESS=${PHP_ADDRESS}"
       - "TZ=${TIMEZONE}"
     volumes:
-      - "$PWD/app/public:/usr/share/nginx/html"
+      - ./public:/usr/share/nginx/html
     networks:
       - "docker-dev-skeleton"
 
   php:
     build:
-      context: $PWD/php-fpm/7.1
-      dockerfile: Dockerfile
+      context: ./.docker/php-fpm/7.1
       args:
         DOCKER_USER: ${DOCKER_USER}
         DOCKER_USER_ID: ${DOCKER_USER_ID}
@@ -40,8 +37,8 @@ services:
       - "TZ=${TIMEZONE}"
       - "XDEBUG_CONFIG=remote_host=${REMOTE_HOST}"
     volumes:
-      - "$PWD/app:/var/www/html"
-    working_dir: "/var/www/html"
+      - .:/var/www/html
+    working_dir: /var/www/html
     user: "${DOCKER_USER}"
     entrypoint:
       - ""
