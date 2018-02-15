@@ -5,6 +5,7 @@ services:
 
 install:
   - cp .env.example .env
+  - eval "$(ssh-agent -s)"
   - docker-compose up -d
 
 script:

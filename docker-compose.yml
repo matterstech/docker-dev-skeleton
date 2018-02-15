@@ -34,10 +34,12 @@ services:
         DOCKER_USER_ID: ${DOCKER_USER_ID}
     restart: "${RESTART_POLICIES}"
     environment:
-      - "TZ=${TIMEZONE}"
-      - "XDEBUG_CONFIG=remote_host=${REMOTE_HOST}"
+      TZ: ${TIMEZONE}"
+      XDEBUG_CONFIG: remote_host=${REMOTE_HOST}
+      SSH_AUTH_SOCK: /ssh-agent
     volumes:
       - .:/var/www/html
+      - $SSH_AUTH_SOCK:/ssh-agent
     working_dir: /var/www/html
     user: "${DOCKER_USER}"
     entrypoint:
