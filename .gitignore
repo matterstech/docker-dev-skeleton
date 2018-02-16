@@ -5,5 +5,7 @@
 /.env
 /.data
 
-# Composer vendors
-vendor
+# Composer
+/bin
+/composer.lock
+/vendor

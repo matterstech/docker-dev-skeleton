@@ -1,0 +1,13 @@
+# behat.yml
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+
+  extensions:
+    Imbo\BehatApiExtension:
+      apiClient:
+        base_uri: http://dockerdevskeleton_nginx_1
+        timeout: 5.0
+        verify: false

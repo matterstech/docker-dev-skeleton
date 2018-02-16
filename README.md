@@ -8,10 +8,8 @@ This repository gather Docker and docker-compose skeletons for **development env
 
 ## Installation :
 
-- `cp .env.example .env`
-
+- `make setup`
 - `docker-compose up -d`
-
 - Add following entries in `/etc/hosts`
 
     ```
@@ -32,3 +30,8 @@ This repository gather Docker and docker-compose skeletons for **development env
 ## Usages :
 
 - `docker-compose run php bash`
+
+
+## Run functional tests
+
+- `docker-compose exec php bin/behat --config=behat/behat.yml`

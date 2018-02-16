@@ -4,9 +4,10 @@ services:
   - docker
 
 install:
-  - cp .env.example .env
+  - make setup
   - eval "$(ssh-agent -s)"
   - docker-compose up -d
 
 script:
- - curl localhost:8080
+ - docker-compose run php composer install
+ - docker-compose exec php bin/behat --config=behat/behat.yml
