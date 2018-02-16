@@ -1,12 +1,23 @@
-dist: trusty
+language: php
 
-services:
-  - docker
+php:
+  - '7.1'
+  - '7.2'
 
 install:
-  - cp .env.example .env
-  - eval "$(ssh-agent -s)"
-  - docker-compose up -d
+  - composer install
 
 script:
- - curl localhost:8080
+  - vendor/bin/phpunit --bootstrap vendor/autoload.php tests
+
+jobs:
+  include:
+    - stage: build
+      services:
+        - docker
+      install:
+        - cp .env.example .env
+        - eval "$(ssh-agent -s)"
+        - docker-compose up -d
+      script:
+       - curl localhost:8080
