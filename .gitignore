@@ -4,3 +4,6 @@
 # Docker stuff
 /.env
 /.data
+
+# Composer vendors
+vendor
