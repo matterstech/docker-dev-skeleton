@@ -34,7 +34,7 @@ services:
         DOCKER_USER_ID: ${DOCKER_USER_ID}
     restart: "${RESTART_POLICIES}"
     environment:
-      TZ: ${TIMEZONE}"
+      TZ: ${TIMEZONE}
       XDEBUG_CONFIG: remote_host=${REMOTE_HOST}
       SSH_AUTH_SOCK: /ssh-agent
     volumes:
