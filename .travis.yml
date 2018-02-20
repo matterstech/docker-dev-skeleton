@@ -10,4 +10,4 @@ install:
 
 script:
  - docker-compose run php composer install
- - docker-compose exec php bin/behat --config=behat/behat.yml
+ - make test.behat.run

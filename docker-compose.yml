@@ -37,6 +37,8 @@ services:
       TZ: ${TIMEZONE}
       XDEBUG_CONFIG: remote_host=${REMOTE_HOST}
       SSH_AUTH_SOCK: /ssh-agent
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - .:/var/www/html
       - $SSH_AUTH_SOCK:/ssh-agent
@@ -46,6 +48,20 @@ services:
       - ""
     command:
       - "php-fpm"
+    networks:
+      - "docker-dev-skeleton"
+
+  postgres:
+    build:
+      context: ./.docker/postgres/9.4
+    ports:
+      - ${DB_PORT_EXTERNAL}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
     networks:
       - "docker-dev-skeleton"
 
