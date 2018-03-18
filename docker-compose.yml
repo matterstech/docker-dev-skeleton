@@ -35,7 +35,8 @@ services:
     restart: "${RESTART_POLICIES}"
     environment:
       TZ: ${TIMEZONE}
-      XDEBUG_CONFIG: remote_host=${REMOTE_HOST}
+      XDEBUG_ENABLE: "true"
+      REMOTE_HOST_ENABLE: "true"
       SSH_AUTH_SOCK: /ssh-agent
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
@@ -44,8 +45,6 @@ services:
       - $SSH_AUTH_SOCK:/ssh-agent
     working_dir: /var/www/html
     user: "${DOCKER_USER}"
-    entrypoint:
-      - ""
     command:
       - "php-fpm"
     networks:
