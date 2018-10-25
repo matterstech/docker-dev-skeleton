@@ -1,6 +1,6 @@
 # Docker skeletons for developments
 
-This repository gather Docker and docker-compose skeletons for **development environments**.
+This repository gathers Docker and docker-compose skeletons for **development environments**.
 
 * `app/` directory contains a sample "Hello World" php application.
 * For now, we have only one `docker-compose.yml` for `php-fpm` and `nginx` images.
